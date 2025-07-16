@@ -19,6 +19,10 @@ from rich.tree import Tree
 from rich import box
 from rich.align import Align
 from rich.rule import Rule
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from tradingagents.graph.trading_graph import TradingAgentsGraph
 from tradingagents.default_config import DEFAULT_CONFIG
@@ -433,52 +437,29 @@ def get_user_selections():
     )
     selected_ticker = get_ticker()
 
-    # Step 2: Analysis date
-    default_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    console.print(
-        create_question_box(
-            "Step 2: Analysis Date",
-            "Enter the analysis date (YYYY-MM-DD)",
-            default_date,
-        )
-    )
-    analysis_date = get_analysis_date()
+    # Step 2: Analysis date (simplified - use current date)
+    analysis_date = datetime.datetime.now().strftime("%Y-%m-%d")
+    console.print(f"[green]Using current date:[/green] {analysis_date}")
 
-    # Step 3: Select analysts
+    # Step 3: Select analysts (simplified - use all four analysts)
+    selected_analysts = [AnalystType.MARKET, AnalystType.SOCIAL, AnalystType.NEWS, AnalystType.FUNDAMENTALS]
     console.print(
-        create_question_box(
-            "Step 3: Analysts Team", "Select your LLM analyst agents for the analysis"
-        )
-    )
-    selected_analysts = select_analysts()
-    console.print(
-        f"[green]Selected analysts:[/green] {', '.join(analyst.value for analyst in selected_analysts)}"
+        f"[green]Using all analysts:[/green] {', '.join(analyst.value for analyst in selected_analysts)}"
     )
 
-    # Step 4: Research depth
-    console.print(
-        create_question_box(
-            "Step 4: Research Depth", "Select your research depth level"
-        )
-    )
-    selected_research_depth = select_research_depth()
+    # Step 4: Research depth (simplified - use deep research)
+    selected_research_depth = DEFAULT_CONFIG["max_debate_rounds"]
+    console.print(f"[green]Using research depth:[/green] {selected_research_depth} (From default config)")
 
-    # Step 5: OpenAI backend
-    console.print(
-        create_question_box(
-            "Step 5: OpenAI backend", "Select which service to talk to"
-        )
-    )
-    selected_llm_provider, backend_url = select_llm_provider()
+    # Step 5: OpenAI backend (simplified - use OpenAI)
+    selected_llm_provider = DEFAULT_CONFIG["llm_provider"]
+    backend_url = DEFAULT_CONFIG["backend_url"]
+    console.print(f"[green]Using LLM provider:[/green] {selected_llm_provider}")
     
-    # Step 6: Thinking agents
-    console.print(
-        create_question_box(
-            "Step 6: Thinking Agents", "Select your thinking agents for analysis"
-        )
-    )
-    selected_shallow_thinker = select_shallow_thinking_agent(selected_llm_provider)
-    selected_deep_thinker = select_deep_thinking_agent(selected_llm_provider)
+    # Step 6: Thinking agents (simplified - use defaults)
+    selected_shallow_thinker = DEFAULT_CONFIG["quick_think_llm"]
+    selected_deep_thinker = DEFAULT_CONFIG["deep_think_llm"]
+    console.print(f"[green]Using default thinking agents:[/green] Shallow: {selected_shallow_thinker}, Deep: {selected_deep_thinker}")
 
     return {
         "ticker": selected_ticker,
@@ -494,7 +475,7 @@ def get_user_selections():
 
 def get_ticker():
     """Get ticker symbol from user input."""
-    return typer.prompt("", default="SPY")
+    return typer.prompt("", default="TSLA")
 
 
 def get_analysis_date():

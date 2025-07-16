@@ -9,6 +9,10 @@ from typing import Dict, Any, Tuple, List, Optional
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from langgraph.prebuilt import ToolNode
 

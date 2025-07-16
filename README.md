@@ -25,189 +25,234 @@
 
 ---
 
-# TradingAgents: Multi-Agents LLM Financial Trading Framework 
+# TradingAgents: Multi-Agent LLM Financial Trading Framework
 
-> 🎉 **TradingAgents** officially released! We have received numerous inquiries about the work, and we would like to express our thanks for the enthusiasm in our community.
->
-> So we decided to fully open-source the framework. Looking forward to building impactful projects with you!
+![TradingAgents](assets/TauricResearch.png)
 
-<div align="center">
-<a href="https://www.star-history.com/#TauricResearch/TradingAgents&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=TauricResearch/TradingAgents&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=TauricResearch/TradingAgents&type=Date" />
-   <img alt="TradingAgents Star History" src="https://api.star-history.com/svg?repos=TauricResearch/TradingAgents&type=Date" style="width: 80%; height: auto;" />
- </picture>
-</a>
-</div>
+**TradingAgents** is a sophisticated multi-agent framework for financial trading analysis using Large Language Models (LLMs). The system employs multiple specialized agents working in concert to provide comprehensive market analysis and trading recommendations.
 
-<div align="center">
+## Features
 
-🚀 [TradingAgents](#tradingagents-framework) | ⚡ [Installation & CLI](#installation-and-cli) | 🎬 [Demo](https://www.youtube.com/watch?v=90gr5lwjIho) | 📦 [Package Usage](#tradingagents-package) | 🤝 [Contributing](#contributing) | 📄 [Citation](#citation)
+- **Multi-Agent Architecture**: Specialized agents for different aspects of market analysis
+- **LLM Integration**: Support for OpenAI GPT models with configurable shallow and deep thinking agents
+- **Comprehensive Analysis**: Market, sentiment, news, and fundamental analysis
+- **Research Workflow**: Bull/Bear researcher debate with manager oversight
+- **Risk Management**: Multi-perspective risk analysis with portfolio management decisions
+- **Real-time Data**: Integration with multiple data sources including Yahoo Finance, Reddit, and news APIs
+- **🆕 Parallel Processing**: Run analysis on multiple tickers simultaneously with configurable concurrency
+- **Rich CLI Interface**: Beautiful command-line interface with progress tracking
 
-</div>
+## Architecture
 
-## TradingAgents Framework
+![Architecture](assets/schema.png)
 
-TradingAgents is a multi-agent trading framework that mirrors the dynamics of real-world trading firms. By deploying specialized LLM-powered agents: from fundamental analysts, sentiment experts, and technical analysts, to trader, risk management team, the platform collaboratively evaluates market conditions and informs trading decisions. Moreover, these agents engage in dynamic discussions to pinpoint the optimal strategy.
-
-<p align="center">
-  <img src="assets/schema.png" style="width: 100%; height: auto;">
-</p>
-
-> TradingAgents framework is designed for research purposes. Trading performance may vary based on many factors, including the chosen backbone language models, model temperature, trading periods, the quality of data, and other non-deterministic factors. [It is not intended as financial, investment, or trading advice.](https://tauric.ai/disclaimer/)
-
-Our framework decomposes complex trading tasks into specialized roles. This ensures the system achieves a robust, scalable approach to market analysis and decision-making.
+The system consists of several agent teams:
 
 ### Analyst Team
-- Fundamentals Analyst: Evaluates company financials and performance metrics, identifying intrinsic values and potential red flags.
-- Sentiment Analyst: Analyzes social media and public sentiment using sentiment scoring algorithms to gauge short-term market mood.
-- News Analyst: Monitors global news and macroeconomic indicators, interpreting the impact of events on market conditions.
-- Technical Analyst: Utilizes technical indicators (like MACD and RSI) to detect trading patterns and forecast price movements.
+- **Market Analyst**: Technical analysis and market trends
+- **Social Media Analyst**: Sentiment analysis from social platforms
+- **News Analyst**: News impact and sentiment analysis  
+- **Fundamentals Analyst**: Financial metrics and company fundamentals
 
-<p align="center">
-  <img src="assets/analyst.png" width="100%" style="display: inline-block; margin: 0 2%;">
-</p>
+### Research Team
+- **Bull Researcher**: Optimistic investment perspective
+- **Bear Researcher**: Pessimistic investment perspective
+- **Research Manager**: Synthesizes bull/bear arguments
 
-### Researcher Team
-- Comprises both bullish and bearish researchers who critically assess the insights provided by the Analyst Team. Through structured debates, they balance potential gains against inherent risks.
+### Trading Team
+- **Trader**: Develops specific trading strategies
 
-<p align="center">
-  <img src="assets/researcher.png" width="70%" style="display: inline-block; margin: 0 2%;">
-</p>
+### Risk Management Team
+- **Risk Analysts**: Multiple risk perspectives (Aggressive, Conservative, Neutral)
+- **Portfolio Manager**: Final investment decision
 
-### Trader Agent
-- Composes reports from the analysts and researchers to make informed trading decisions. It determines the timing and magnitude of trades based on comprehensive market insights.
+## Quick Start
 
-<p align="center">
-  <img src="assets/trader.png" width="70%" style="display: inline-block; margin: 0 2%;">
-</p>
+### Single Ticker Analysis
 
-### Risk Management and Portfolio Manager
-- Continuously evaluates portfolio risk by assessing market volatility, liquidity, and other risk factors. The risk management team evaluates and adjusts trading strategies, providing assessment reports to the Portfolio Manager for final decision.
-- The Portfolio Manager approves/rejects the transaction proposal. If approved, the order will be sent to the simulated exchange and executed.
+Run analysis on a single ticker (backwards compatible):
 
-<p align="center">
-  <img src="assets/risk.png" width="70%" style="display: inline-block; margin: 0 2%;">
-</p>
+```bash
+# Run with default settings (SPY)
+python cli/main.py
 
-## Installation and CLI
+# Or analyze a specific ticker
+python cli/parallel.py single --ticker AAPL
+```
 
-### Installation
+### 🆕 Parallel Multi-Ticker Analysis
 
-Clone TradingAgents:
+Analyze multiple tickers simultaneously for faster results:
+
+```bash
+# Quick start: Analyze 3 tickers with 2 parallel workers
+python cli/parallel.py quick --count 3 --parallel 2
+
+# Analyze specific tickers in parallel
+python cli/parallel.py run --tickers "AAPL,MSFT,GOOG,TSLA" --max-parallel 3
+
+# Analyze first 5 default tickers with 3 parallel workers
+python cli/parallel.py run --max-tickers 5 --max-parallel 3
+
+# List all available default tickers
+python cli/parallel.py list
+```
+
+### Parallel CLI Options
+
+- `--tickers, -t`: Comma-separated list of custom tickers
+- `--max-tickers, -n`: Maximum number of tickers to analyze from default list
+- `--max-parallel, -p`: Number of parallel analyses to run simultaneously
+- `--count, -c`: Quick start option for number of tickers
+- `--parallel, -p`: Quick start option for parallel workers
+
+### Example Commands
+
+```bash
+# Analyze top 10 tickers with 4 parallel workers
+python cli/parallel.py run -n 10 -p 4
+
+# Custom ticker analysis
+python cli/parallel.py run -t "NVDA,AMD,INTC" -p 2
+
+# Single ticker with full analysis
+python cli/parallel.py single -t TSLA
+
+# Quick analysis of 5 tickers
+python cli/parallel.py quick -c 5 -p 3
+```
+
+## Performance Benefits
+
+- **Parallel Processing**: Analyze multiple tickers simultaneously
+- **Configurable Concurrency**: Control resource usage with parallel worker limits
+- **Progress Tracking**: Real-time progress monitoring for each ticker
+- **Error Handling**: Robust error handling with detailed reporting
+- **Resource Optimization**: Thread-based parallelism for I/O-bound operations
+
+## Installation
+
+1. Clone the repository:
 ```bash
 git clone https://github.com/TauricResearch/TradingAgents.git
 cd TradingAgents
 ```
 
-Create a virtual environment in any of your favorite environment managers:
-```bash
-conda create -n tradingagents python=3.13
-conda activate tradingagents
-```
-
-Install dependencies:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-### Required APIs
-
-You will also need the FinnHub API for financial data. All of our code is implemented with the free tier.
+3. Set up environment variables:
 ```bash
-export FINNHUB_API_KEY=$YOUR_FINNHUB_API_KEY
+cp .env.example .env
+# Edit .env with your API keys
 ```
 
-You will need the OpenAI API for all the agents.
-```bash
-export OPENAI_API_KEY=$YOUR_OPENAI_API_KEY
+Required API keys:
+- OpenAI API key
+- Reddit API credentials (optional)
+- News API key (optional)
+
+## Configuration
+
+The system uses a hierarchical configuration system:
+
+- **Default Config**: `tradingagents/default_config.py`
+- **Environment Variables**: Override via `.env` file
+- **Runtime Parameters**: CLI arguments override config
+
+Key configuration options:
+- `max_debate_rounds`: Research team debate iterations
+- `max_risk_discuss_rounds`: Risk management discussion rounds
+- `quick_think_llm`: Fast reasoning model (e.g., gpt-4o)
+- `deep_think_llm`: Deep analysis model (e.g., o3)
+- `llm_provider`: LLM service provider
+- `backend_url`: API endpoint URL
+
+## Default Tickers
+
+The system includes a curated list of default tickers covering major sectors:
+
+```python
+DEFAULT_TICKERS = [
+    "UNH", "MSFT", "ADM", "AES", "AZO", "AXON", "WFC", "ABT", 
+    "AAPL", "AMZN", "GOOG", "META", "NFLX", "TSLA", "NVDA",
+    "ARE", "ALL", "ACN", "ALB", "ADBE", "AMGN", "MMM", 
+    "APTV", "BKR", "APD", "AKAM"
+]
 ```
 
-### CLI Usage
+## Output Structure
 
-You can also try out the CLI directly by running:
-```bash
-python -m cli.main
-```
-You will see a screen where you can select your desired tickers, date, LLMs, research depth, etc.
+Analysis results are saved to `results/{TICKER}/{DATE}/`:
+- `reports/`: Individual analysis reports in Markdown
+- `message_tool.log`: Complete analysis log
 
-<p align="center">
-  <img src="assets/cli/cli_init.png" width="100%" style="display: inline-block; margin: 0 2%;">
-</p>
+Report sections:
+- `market_report.md`: Technical analysis
+- `sentiment_report.md`: Social sentiment analysis
+- `news_report.md`: News analysis
+- `fundamentals_report.md`: Financial fundamentals
+- `investment_plan.md`: Research team decision
+- `trader_investment_plan.md`: Trading strategy
+- `final_trade_decision.md`: Final portfolio decision
 
-An interface will appear showing results as they load, letting you track the agent's progress as it runs.
+## Advanced Usage
 
-<p align="center">
-  <img src="assets/cli/cli_news.png" width="100%" style="display: inline-block; margin: 0 2%;">
-</p>
-
-<p align="center">
-  <img src="assets/cli/cli_transaction.png" width="100%" style="display: inline-block; margin: 0 2%;">
-</p>
-
-## TradingAgents Package
-
-### Implementation Details
-
-We built TradingAgents with LangGraph to ensure flexibility and modularity. We utilize `o1-preview` and `gpt-4o` as our deep thinking and fast thinking LLMs for our experiments. However, for testing purposes, we recommend you use `o4-mini` and `gpt-4.1-mini` to save on costs as our framework makes **lots of** API calls.
-
-### Python Usage
-
-To use TradingAgents inside your code, you can import the `tradingagents` module and initialize a `TradingAgentsGraph()` object. The `.propagate()` function will return a decision. You can run `main.py`, here's also a quick example:
+### Custom Agent Configuration
 
 ```python
 from tradingagents.graph.trading_graph import TradingAgentsGraph
 from tradingagents.default_config import DEFAULT_CONFIG
 
-ta = TradingAgentsGraph(debug=True, config=DEFAULT_CONFIG.copy())
+# Custom analyst selection
+analysts = ["market", "news", "fundamentals"]
 
-# forward propagate
-_, decision = ta.propagate("NVDA", "2024-05-10")
-print(decision)
-```
-
-You can also adjust the default configuration to set your own choice of LLMs, debate rounds, etc.
-
-```python
-from tradingagents.graph.trading_graph import TradingAgentsGraph
-from tradingagents.default_config import DEFAULT_CONFIG
-
-# Create a custom config
+# Custom configuration
 config = DEFAULT_CONFIG.copy()
-config["deep_think_llm"] = "gpt-4.1-nano"  # Use a different model
-config["quick_think_llm"] = "gpt-4.1-nano"  # Use a different model
-config["max_debate_rounds"] = 1  # Increase debate rounds
-config["online_tools"] = True # Use online tools or cached data
+config["max_debate_rounds"] = 3
+config["deep_think_llm"] = "o3"
 
-# Initialize with custom config
-ta = TradingAgentsGraph(debug=True, config=config)
-
-# forward propagate
-_, decision = ta.propagate("NVDA", "2024-05-10")
-print(decision)
+graph = TradingAgentsGraph(analysts, config=config)
 ```
 
-> For `online_tools`, we recommend enabling them for experimentation, as they provide access to real-time data. The agents' offline tools rely on cached data from our **Tauric TradingDB**, a curated dataset we use for backtesting. We're currently in the process of refining this dataset, and we plan to release it soon alongside our upcoming projects. Stay tuned!
+### Batch Processing
 
-You can view the full list of configurations in `tradingagents/default_config.py`.
+```python
+from cli.main import run_quick_analysis
 
-## Contributing
-
-We welcome contributions from the community! Whether it's fixing a bug, improving documentation, or suggesting a new feature, your input helps make this project better. If you are interested in this line of research, please consider joining our open-source financial AI research community [Tauric Research](https://tauric.ai/).
-
-## Citation
-
-Please reference our work if you find *TradingAgents* provides you with some help :)
-
+# Analyze multiple ticker sets
+results, errors = run_quick_analysis(
+    tickers=["AAPL", "MSFT", "GOOG"],
+    max_parallel=2,
+    max_tickers=None
+)
 ```
-@misc{xiao2025tradingagentsmultiagentsllmfinancial,
-      title={TradingAgents: Multi-Agents LLM Financial Trading Framework}, 
-      author={Yijia Xiao and Edward Sun and Di Luo and Wei Wang},
-      year={2025},
-      eprint={2412.20138},
-      archivePrefix={arXiv},
-      primaryClass={q-fin.TR},
-      url={https://arxiv.org/abs/2412.20138}, 
-}
-```
+
+## Development
+
+See [docs/development.md](docs/development.md) for development guidelines.
+
+## Documentation
+
+- [Architecture Overview](docs/architecture.md)
+- [Agent Details](docs/agents.md)
+- [Data Sources](docs/data-sources.md)
+- [Configuration Guide](docs/configuration.md)
+- [API Reference](docs/api-reference.md)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- **Tauric Research** - Framework development and research
+- **OpenAI** - LLM integration and reasoning capabilities
+- **Rich** - Beautiful terminal interfaces
+- **LangGraph** - Agent workflow orchestration
+
+---
+
+**Note**: This is a research framework for educational and analysis purposes. Not financial advice. Always consult with qualified financial professionals before making investment decisions.

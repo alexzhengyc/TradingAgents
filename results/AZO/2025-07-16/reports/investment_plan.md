@@ -1,0 +1,15 @@
+Here’s my take. Both sides laid out thoughtful points, but weighing the facts leads me to side with the bear: it’s time to trim or exit AutoZone rather than add more. 
+
+Let me quickly recap the crux of each argument. The bull says AutoZone is firing on all cylinders—new stores, robust same-store sales tailwinds from DIY repair, best-in-class 52.7 percent gross margins, and healthy cash flows that support buybacks. They highlight the stock’s 10-plus percent upside to consensus targets, inflation as a DIY accelerator, and a history of navigating macro shocks with minimal damage.
+
+On the flip side, the bear focuses on inventory per store jumping 6.7 percent while top-line growth is flattening—classic late-cycle overstock risk. OpEx is up nearly 9 percent year-over-year without immediate proof that tech and omnichannel investments will pay off quickly. Technically, price is flirting with—or dipping below—key moving averages on soft volume, a pattern we’ve seen precede corrections. And at a P/E north of 25, all of AZO’s resilience is baked in; any miss or margin squeeze could trigger a sharp multiple contraction. To top it off, some large institutions are already lightening up.
+
+Recommendation: Sell (or at least materially reduce). The risk/reward here is skewed toward a pullback. You’re paying up for perfection at a time when inventory, cost pressures, technical momentum, and ex­-U.S. tariff risks are all flashing caution. 
+
+Rationale. 1. Inventory and margin risks are real and underappreciated. 2. Soft volume on rallies and stalling momentum around moving averages tend to lead to downturns, not breakouts. 3. Valuation leaves little room for error; one margin miss or OpEx overrun could shave multiple points off the stock. 4. Institutional selling signals that smart money is reallocating to less crowded trades.
+
+Strategic Actions. First, start reducing your AutoZone position in tranches—sell about 25 percent immediately to lock in gains and protect against downside. As AZO approaches or breaches the 50-day moving average on strong volume, sell another 25 percent. Second, set a hard stop around the 200-day moving average; if it breaks below, exit the remaining position. Third, redeploy proceeds into names with stronger technical setups, healthier valuations and clearer near-term catalysts—think high-quality compounders trading below their five-year average multiples or defensive sectors showing early signs of rotation. Fourth, if AZO does retrace 10 percent from here or demonstrates renewed margin expansion on a same-store sales beat, consider a small re-entry around those levels.
+
+Lessons Learned. In the past I’ve been slow to book gains when market leadership shows early signs of fatigue. This time I’m acting decisively—protect capital first, let profits run only when the technicals and fundamentals stay rock solid.  
+
+That’s the plan. We’ll stay alert to fresh evidence but won’t gamble on perfection in a crowded, richly valued stock.

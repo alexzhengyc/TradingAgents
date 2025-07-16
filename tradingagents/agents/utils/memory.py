@@ -1,6 +1,10 @@
 import chromadb
 from chromadb.config import Settings
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class FinancialSituationMemory:
