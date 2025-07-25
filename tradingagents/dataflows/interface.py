@@ -741,7 +741,7 @@ def get_stock_news_openai(ticker, curr_date):
     return response.output[1].content[0].text
 
 
-def get_global_news_openai(curr_date):
+def get_global_news_openai(curr_date, look_back_days=7):
     config = get_config()
     client = OpenAI(base_url=config["backend_url"])
 
@@ -753,7 +753,7 @@ def get_global_news_openai(curr_date):
                 "content": [
                     {
                         "type": "input_text",
-                        "text": f"Can you search global or macroeconomics news from 7 days before {curr_date} to {curr_date} that would be informative for trading purposes? Make sure you only get the data posted during that period.",
+                        "text": f"Can you search global or macroeconomics news from {look_back_days} days before {curr_date} to {curr_date} that would be informative for trading purposes? Make sure you only get the data posted during that period.",
                     }
                 ],
             }

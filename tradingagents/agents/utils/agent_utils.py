@@ -346,18 +346,19 @@ class Toolkit:
     def get_google_news(
         query: Annotated[str, "Query to search with"],
         curr_date: Annotated[str, "Curr date in yyyy-mm-dd format"],
+        look_back_days: Annotated[int, "How many days to look back from curr_date"] = 7,
     ):
         """
         Retrieve the latest news from Google News based on a query and date range.
         Args:
             query (str): Query to search with
             curr_date (str): Current date in yyyy-mm-dd format
-            look_back_days (int): How many days to look back
+            look_back_days (int): How many days to look back from curr_date (default: 7)
         Returns:
             str: A formatted string containing the latest news from Google News based on the query and date range.
         """
 
-        google_news_results = interface.get_google_news(query, curr_date, 7)
+        google_news_results = interface.get_google_news(query, curr_date, look_back_days)
 
         return google_news_results
 
@@ -384,16 +385,18 @@ class Toolkit:
     @tool
     def get_global_news_openai(
         curr_date: Annotated[str, "Current date in yyyy-mm-dd format"],
+        look_back_days: Annotated[int, "How many days to look back from curr_date"] = 7,
     ):
         """
-        Retrieve the latest macroeconomics news on a given date using OpenAI's macroeconomics news API.
+        Retrieve the latest macroeconomics news using OpenAI's macroeconomics news API.
         Args:
             curr_date (str): Current date in yyyy-mm-dd format
+            look_back_days (int): How many days to look back from curr_date (default: 7)
         Returns:
-            str: A formatted string containing the latest macroeconomic news on the given date.
+            str: A formatted string containing the latest macroeconomic news for the specified time range.
         """
 
-        openai_news_results = interface.get_global_news_openai(curr_date)
+        openai_news_results = interface.get_global_news_openai(curr_date, look_back_days)
 
         return openai_news_results
 

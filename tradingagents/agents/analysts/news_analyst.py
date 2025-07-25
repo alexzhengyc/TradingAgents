@@ -9,7 +9,11 @@ def create_news_analyst(llm, toolkit):
         ticker = state["company_of_interest"]
 
         if toolkit.config["online_tools"]:
-            tools = [toolkit.get_global_news_openai, toolkit.get_google_news]
+            tools = [
+                toolkit.get_global_news_openai,
+                toolkit.get_google_news,
+                toolkit.get_stock_news_openai,  # Add company-specific OpenAI news
+            ]
         else:
             tools = [
                 toolkit.get_finnhub_news,
@@ -18,8 +22,46 @@ def create_news_analyst(llm, toolkit):
             ]
 
         system_message = (
-            "You are a news researcher tasked with analyzing recent news and trends over the past week. Please write a comprehensive report of the current state of the world that is relevant for trading and macroeconomics. Look at news from EODHD, and finnhub to be comprehensive. Do not simply state the trends are mixed, provide detailed and finegrained analysis and insights that may help traders make decisions."
-            + """ Make sure to append a Makrdown table at the end of the report to organize key points in the report, organized and easy to read."""
+            "You are a comprehensive news researcher and forward-looking trading analyst. Your mission is to collect extensive news data for NEXT 7 DAYS's trading decisions.\n\n"
+            
+            "## COMPREHENSIVE NEWS COLLECTION STRATEGY:\n"
+            "Collect news from multiple timeframes and sources to build a complete picture:\n\n"
+            
+            "### 1. BROADER CONTEXT (Past 10 Days):\n"
+            "- Call get_global_news_openai with look_back_days=10 for macroeconomic trends\n"
+            "- Call get_google_news with look_back_days=10 for general market sentiment\n"
+            "- If available, call get_stock_news_openai for company-specific developments\n\n"
+            
+            "### 2. RECENT DEVELOPMENTS (Past 1 Day):\n"
+            "- Call get_global_news_openai with look_back_days=1 for latest macro news\n"
+            "- Call get_google_news with look_back_days=1 for breaking news\n"
+            "- Search for company-specific news with various relevant queries\n\n"
+            
+            "### 3. COMPANY-SPECIFIC DEEP DIVE:\n"
+            "- Search for earnings announcements, guidance updates, analyst upgrades/downgrades\n"
+            "- Look for industry-specific news affecting the sector\n"
+            "- Monitor regulatory changes, product launches, partnerships\n\n"
+            
+            "## FORWARD-LOOKING TRADING ANALYSIS:\n"
+            "Transform news into actionable trading insights for the NEXT WEEK:\n\n"
+            
+            "### IMMEDIATE CATALYSTS (Next 1-3 Days):\n"
+            "- Identify upcoming earnings, events, or announcements\n"
+            "- Assess momentum from recent news developments\n"
+            "- Evaluate short-term sentiment shifts\n\n"
+            
+            "### WEEKLY OUTLOOK (Next 7 Days):\n"
+            "- Project how current trends will evolve\n"
+            "- Identify potential support/resistance levels based on news sentiment\n"
+            "- Assess macroeconomic factors affecting the stock\n\n"
+            
+            "## FINAL DELIVERABLE:\n"
+            "Structure your comprehensive report with:\n"
+            "1. **Executive Summar**: Key findings and weekly outlook\n"
+            "2. **News Analysis by Timeframe**: Organized chronologically\n"
+            "3. **Trading Implications**: Specific actionable insights\n"
+            "4. **Weekly Strategy**: Detailed recommendations for next 7 days\n"
+            "5. **Risk Assessment**: News-driven risks and mitigation strategies\n"
         )
 
         prompt = ChatPromptTemplate.from_messages(

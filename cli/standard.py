@@ -73,6 +73,9 @@ class MessageBuffer:
             "investment_plan": None,
             "trader_investment_plan": None,
             "final_trade_decision": None,
+            "bull_researcher_debate": None,
+            "bear_researcher_debate": None,
+            "debate_summary": None,
         }
 
     def add_message(self, message_type, content):
@@ -114,6 +117,9 @@ class MessageBuffer:
                 "investment_plan": "Research Team Decision",
                 "trader_investment_plan": "Trading Team Plan",
                 "final_trade_decision": "Portfolio Management Decision",
+                "bull_researcher_debate": "Bull Researcher Debate",
+                "bear_researcher_debate": "Bear Researcher Debate",
+                "debate_summary": "Bull vs Bear Debate Summary",
             }
             self.current_report = (
                 f"### {section_titles[latest_section]}\n{latest_content}"
@@ -940,6 +946,11 @@ def run_analysis():
                                 "investment_plan",
                                 f"### Bull Researcher Analysis\n{latest_bull}",
                             )
+                            # Save bull researcher debate history
+                            message_buffer.update_report_section(
+                                "bull_researcher_debate",
+                                debate_state["bull_history"]
+                            )
 
                     # Update Bear Researcher status and report
                     if "bear_history" in debate_state and debate_state["bear_history"]:
@@ -955,6 +966,18 @@ def run_analysis():
                                 "investment_plan",
                                 f"{message_buffer.report_sections['investment_plan']}\n\n### Bear Researcher Analysis\n{latest_bear}",
                             )
+                            # Save bear researcher debate history
+                            message_buffer.update_report_section(
+                                "bear_researcher_debate",
+                                debate_state["bear_history"]
+                            )
+
+                    # Save complete debate history if available
+                    if "history" in debate_state and debate_state["history"]:
+                        message_buffer.update_report_section(
+                            "debate_summary",
+                            f"# Bull vs Bear Researcher Debate\n\n{debate_state['history']}"
+                        )
 
                     # Update Research Manager status and final decision
                     if (

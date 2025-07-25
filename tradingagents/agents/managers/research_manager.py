@@ -4,6 +4,7 @@ import json
 
 def create_research_manager(llm, memory):
     def research_manager_node(state) -> dict:
+        company_name = state["company_of_interest"]
         history = state["investment_debate_state"].get("history", "")
         market_research_report = state["market_report"]
         sentiment_report = state["sentiment_report"]
@@ -19,21 +20,72 @@ def create_research_manager(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = f"""As the portfolio manager and debate facilitator, your role is to critically evaluate this round of debate and make a definitive decision: align with the bear analyst, the bull analyst, or choose Hold only if it is strongly justified based on the arguments presented.
+        prompt = f"""As the Research Manager specialized in 7-DAY TRADING STRATEGIES, your role is to evaluate the bull vs bear debate and make a definitive WEEKLY TRADING DECISION for {company_name}. Focus on arguments most relevant to NEXT WEEK'S trading performance for {company_name}.
 
-Summarize the key points from both sides concisely, focusing on the most compelling evidence or reasoning. Your recommendation—Buy, Sell, or Hold—must be clear and actionable. Avoid defaulting to Hold simply because both sides have valid points; commit to a stance grounded in the debate's strongest arguments.
+**FOCUS: 7-DAY INVESTMENT DECISION OPTIMIZATION FOR {company_name}**
+Your recommendation must be optimized for the NEXT 7 DAYS of trading {company_name}, not long-term investment thesis.
 
-Additionally, develop a detailed investment plan for the trader. This should include:
+**YOUR 7-DAY DECISION FRAMEWORK FOR {company_name}:**
 
-Your Recommendation: A decisive stance supported by the most convincing arguments.
-Rationale: An explanation of why these arguments lead to your conclusion.
-Strategic Actions: Concrete steps for implementing the recommendation.
-Take into account your past mistakes on similar situations. Use these insights to refine your decision-making and ensure you are learning and improving. Present your analysis conversationally, as if speaking naturally, without special formatting. 
+### 1. WEEKLY ARGUMENT EVALUATION:
+- **Bull Case Strength**: How compelling are the bullish arguments for {company_name} in the NEXT 7 DAYS specifically?
+- **Bear Case Validity**: How valid are the bearish concerns for {company_name} in the WEEKLY timeframe?
+- **Timeframe Relevance**: Which arguments are most relevant for 7-day {company_name} position management?
+- **Evidence Quality**: Which side provides better short-term, actionable evidence for {company_name}?
 
-Here are your past reflections on mistakes:
-\"{past_memory_str}\"
+### 2. 7-DAY DECISION CRITERIA FOR {company_name}:
+Your recommendation (BUY/SELL/HOLD) for {company_name} must consider:
+- **Immediate Catalysts**: Events/announcements expected for {company_name} in the next 7 days
+- **Weekly Risk/Reward**: Risk-adjusted returns for 7-day {company_name} positions
+- **Short-term Momentum**: Technical and fundamental momentum for {company_name} this week
+- **Market Timing**: Current market conditions favoring bulls or bears for {company_name} this week
 
-Here is the debate:
+### 3. WEEKLY INVESTMENT PLAN DEVELOPMENT FOR {company_name}:
+Create a comprehensive 7-day trading plan for {company_name} including:
+
+**DECISION RATIONALE (7-Day Focus for {company_name}):**
+- Primary reason for BUY/SELL/HOLD decision for {company_name} based on weekly outlook
+- Key arguments from debate that drive the 7-day {company_name} recommendation
+- Risk factors and catalysts specific to {company_name} for next week's trading
+
+**7-DAY STRATEGIC ACTIONS FOR {company_name}:**
+- **Position Direction**: Long, short, or neutral for {company_name} this week
+- **Entry Strategy**: Optimal timing and price levels for weekly {company_name} position initiation
+- **Position Size**: Recommended position sizing for 7-day {company_name} volatility and risk
+- **Risk Management**: Weekly stop-losses, position limits, and risk controls for {company_name}
+
+**WEEKLY EXECUTION PLAN FOR {company_name}:**
+- **Monday Strategy**: Market open approach and key levels to watch for {company_name}
+- **Mid-Week Management**: How to manage {company_name} positions Tuesday-Thursday
+- **Friday Approach**: End-of-week {company_name} position management and weekend risk
+- **Contingency Plans**: How to adjust if {company_name} week plays out differently than expected
+
+### 4. DECISION CONVICTION ASSESSMENT FOR {company_name}:
+- **High Conviction (3-5% position)**: Strong bull/bear case for {company_name} with clear weekly catalysts
+- **Medium Conviction (1-3% position)**: Moderate case for {company_name} with some weekly uncertainty
+- **Low Conviction (0.5-1% position)**: Weak case for {company_name} requiring defensive positioning
+- **No Position (0%)**: Conflicting arguments favoring sidelines for {company_name} this week
+
+**PAST LESSONS INTEGRATION:**
+Learn from previous weekly decision mistakes:
+{past_memory_str}
+
+**CRITICAL DECISION RULES FOR {company_name}:**
+- Avoid defaulting to HOLD unless truly justified by 7-day risk/reward analysis for {company_name}
+- Commit to a stance based on the strongest WEEKLY arguments for {company_name}
+- Focus on actionable insights for next week's {company_name} trading performance
+- Address timeframe mismatches between bull/bear arguments for {company_name}
+
+**DELIVERABLE REQUIREMENTS:**
+1. **7-Day Decision**: Clear BUY/SELL/HOLD for {company_name} with conviction level
+2. **Weekly Rationale**: Why this decision is optimal for {company_name} in next 7 days
+3. **Argument Analysis**: Which bull/bear points matter most for {company_name} weekly timeframe
+4. **Trading Plan**: Specific execution strategy for {company_name} this week
+5. **Risk Management**: Weekly position and risk parameters for {company_name}
+6. **Daily Action Items**: What to monitor and do each day of the week for {company_name}
+
+Present your analysis conversationally, focusing on the most compelling WEEKLY arguments for {company_name}. Make a decisive recommendation optimized for 7-day {company_name} trading success.
+
 Debate History:
 {history}"""
         response = llm.invoke(prompt)
